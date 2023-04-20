@@ -1,36 +1,29 @@
-import {Routes, Route} from 'react-router-dom';
-import Contacts from 'pages/Contacts';
+import { Routes, Route } from 'react-router-dom';
+import Contacts from 'pages/Contacts/Contacts';
+import Register from 'pages/Register/Register';
+import Login from 'pages/Login/Login';
+import Layout from './Layout/Layout';
+import Home from 'pages/Home/Home';
 
 const App = () => {
-  
-
   return (
     <div
       style={{
         height: '100vh',
         paddingLeft: '40px',
-        fontSize: 40,
+        paddingRight: '40px',
+        // fontSize: 40,
         color: '#010101',
-      }}     
+      }}
     >
       <Routes>
-        <Route path = '/contacts' element = {<Contacts/>} />
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home/>}/>
+          <Route path="/contacts" element={<Contacts />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
       </Routes>
-      {/* <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      <ThreeDots
-        height="50"
-        width="50"
-        radius="8"
-        color="#4fa94d"
-        ariaLabel="three-dots-loading"
-        wrapperStyle={{ position: 'absolute', left: '120px' }}
-        wrapperClassName=""
-        visible={isLoading && !error}
-      />
-      <ContactList /> */}
     </div>
   );
 };
