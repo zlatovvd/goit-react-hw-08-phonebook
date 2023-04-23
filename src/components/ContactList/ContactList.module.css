@@ -1,3 +1,12 @@
+.contactList {
+  max-height: 350px;
+  width: 400px;
+  overflow-y: auto;
+  border: 1px solid silver;
+  border-radius: 5px;
+  padding: 10px;
+}
+
 .contactList li {
   font-size: 20px;
 }

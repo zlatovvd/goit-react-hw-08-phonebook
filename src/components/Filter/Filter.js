@@ -1,4 +1,11 @@
-import css from './Filter.module.css';
+import { SearchIcon } from '@chakra-ui/icons';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  InputGroup,
+  InputLeftElement,
+} from '@chakra-ui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFilter } from 'redux/contacts/contactsSelectors';
 import { filterContactsAction } from 'redux/contacts/contactsSlice';
@@ -13,17 +20,19 @@ const Filter = () => {
   };
 
   return (
-    <label className={css.filter}>
-      Find contacts by name
-      <input
-        type="text"
-        id="filter"
-        name="filter"
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-        value={filter}
-        onChange={handleFilter}
-      />
-    </label>
+    <FormControl w={400} mb={5}>
+      <FormLabel>Find contacts by name</FormLabel>
+      <InputGroup>
+        <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
+        <Input
+          type="text"
+          id="filter"
+          name="filter"
+          value={filter}
+          onChange={handleFilter}
+        />
+      </InputGroup>
+    </FormControl>
   );
 };
 

@@ -1,21 +1,28 @@
 import { NavLink } from 'react-router-dom';
 import css from './Navigation.module.css';
 import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from 'redux/auth/authSelectors';
+import { selectAuthToken } from 'redux/auth/authSelectors';
+import styled from 'styled-components';
 
 const Navigation = () => {
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  console.log('login', isLoggedIn);
+  const data = useSelector(selectAuthToken);
+  const StyledLink = styled(NavLink)`
+    color: black;
+
+    &.active {
+      color: orange;
+    }
+  `;
 
   return (
     <nav>
-      <NavLink className={css.link} to="/">
+      <StyledLink className={css.link} to="/">
         Home
-      </NavLink>
-      {isLoggedIn && (
-        <NavLink className={css.link} to="/contacts">
+      </StyledLink>
+      {data && data.token && (
+        <StyledLink className={css.link} to="/contacts">
           Contacts
-        </NavLink>
+        </StyledLink>
       )}
     </nav>
   );

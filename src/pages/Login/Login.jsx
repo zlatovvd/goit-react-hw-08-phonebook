@@ -1,8 +1,18 @@
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
+} from '@chakra-ui/react';
+import css from './Login.module.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { selectAuthStatus } from 'redux/auth/authSelectors';
 import { authLoginThunk } from 'redux/auth/authThunk';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 const initialState = {
   email: '',
@@ -11,9 +21,9 @@ const initialState = {
 
 const Login = () => {
   const [values, setValues] = useState(initialState);
+  const [isPassword, setIsPassword] = useState(true);
   const dispatch = useDispatch();
   const status = useSelector(selectAuthStatus);
-  const navigate = useNavigate();
 
   const handleChange = event => {
     const { value, name } = event.target;
@@ -23,40 +33,52 @@ const Login = () => {
   const handleSubmit = async event => {
     event.preventDefault();
     try {
-      await dispatch(authLoginThunk(values)).unwrap();
-      console.log('Ok');
-      navigate('/contacts', { replace: true });
+      dispatch(authLoginThunk(values));
     } catch (e) {
       console.log('error', e.message);
     }
   };
 
+  const showPassword = () => {
+    setIsPassword(!isPassword);
+  };
+
   return (
-    <>
-      {status === 'loading' && <p>...Loading</p>}
-      <form onSubmit={handleSubmit}>
-        <h1>Log In</h1>
-        <label>
-          Email address
-          <input
-            type="email"
-            name="email"
-            onChange={handleChange}
-            value={values.email}
-          />
-        </label>
-        <label>
-          Password
-          <input
-            type="password"
+    <form onSubmit={handleSubmit} className={css.loginForm}>
+      <h1>Log In</h1>
+
+      <FormControl mb={5} isRequired>
+        <FormLabel>Email</FormLabel>
+        <Input
+          type="email"
+          name="email"
+          onChange={handleChange}
+          value={values.email}
+        />
+      </FormControl>
+
+      <FormControl mb={5} isRequired>
+        <FormLabel>Password</FormLabel>
+        <InputGroup>
+          <Input
+            type={isPassword ? 'password' : 'text'}
             name="password"
-            onChange={handleChange}
+            placeholder="password"
             value={values.password}
+            onChange={handleChange}
           />
-        </label>
-        <button type="submit">Log in</button>
-      </form>
-    </>
+          <InputRightElement width="4.5rem">
+            <IconButton h="1.75rem" size="sm" onClick={showPassword}>
+              {isPassword ? <ViewOffIcon /> : <ViewIcon />}
+            </IconButton>
+          </InputRightElement>
+        </InputGroup>
+      </FormControl>
+
+      <Button colorScheme="teal" isLoading={status === 'loading'} type="sybmit">
+        Log in
+      </Button>
+    </form>
   );
 };
 

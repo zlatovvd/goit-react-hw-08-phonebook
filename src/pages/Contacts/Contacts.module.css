@@ -1,0 +1,10 @@
+.contactsWrapper {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content: space-between;
+}
+
+.contacstFilter {
+    /* margin-left: 40px; */
+    margin-top: 50px;
+}

@@ -1,28 +1,38 @@
+import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Contacts from 'pages/Contacts/Contacts';
-import Register from 'pages/Register/Register';
-import Login from 'pages/Login/Login';
 import Layout from './Layout/Layout';
-import Home from 'pages/Home/Home';
+import { PublicRoute } from './AuthRouts/PublicRoute';
+import { PrivateRoute } from './AuthRouts/PrivateRoute';
+import NotFound from './NotFound/NotFound';
+
+const Home = lazy(() => import('pages/Home/Home'));
+const Contacts = lazy(() => import('pages/Contacts/Contacts'));
+const Register = lazy(() => import('pages/Register/Register'));
+const Login = lazy(() => import('pages/Login/Login'));
 
 const App = () => {
   return (
     <div
       style={{
         height: '100vh',
-        paddingLeft: '40px',
-        paddingRight: '40px',
-        // fontSize: 40,
+        maxWidth: '1200px',
+        paddingLeft: '50px',
+        paddingRight: '50px',
         color: '#010101',
       }}
     >
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home/>}/>
-          <Route path="/contacts" element={<Contacts />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route index element={<Home />} />
+          <Route path="" element={<PublicRoute />}>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+          </Route>
+          <Route path="" element={<PrivateRoute />}>
+            <Route path="/contacts" element={<Contacts />} />
+          </Route>
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

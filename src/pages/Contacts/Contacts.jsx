@@ -1,44 +1,47 @@
+import css from './Contacts.module.css';
 import ContactForm from 'components/ContactForm/ContactForm';
 import Filter from 'components/Filter/Filter';
 import ContactList from 'components/ContactList/ContactList';
-import { ThreeDots } from 'react-loader-spinner';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectIsLoading, selectError } from 'redux/contacts/contactsSelectors';
+import { selectIsLoading } from 'redux/contacts/contactsSelectors';
 import { useEffect } from 'react';
 import { fetchContacts } from 'redux/contacts/contactsThunk';
 import { selectAuthToken } from 'redux/auth/authSelectors';
+import { Spinner } from '@chakra-ui/react';
 
 const Contacts = () => {
-
   const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
-  const token = useSelector(selectAuthToken);
+  const { token } = useSelector(selectAuthToken);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(token) {
+    if (token) {
       dispatch(fetchContacts());
     }
   }, [dispatch, token]);
 
   return (
-    <>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      <ThreeDots
-        height="50"
-        width="50"
-        radius="8"
-        color="#4fa94d"
-        ariaLabel="three-dots-loading"
-        wrapperStyle={{ position: 'absolute', left: '120px' }}
-        wrapperClassName=""
-        visible={isLoading && !error}
-      />
-      <ContactList />
-    </>
+    <div className={css.contactsWrapper}>
+      <div className={css.contactsForm}>
+        <h1>Phonebook</h1>
+        <ContactForm />
+      </div>
+      <div className={css.contacstFilter}>
+        <h2>Contacts</h2>
+        <Filter />
+        {isLoading && (
+          <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="blue.500"
+            size="xl"
+            pos="absolute"
+          />
+        )}
+        <ContactList />
+      </div>
+    </div>
   );
 };
 

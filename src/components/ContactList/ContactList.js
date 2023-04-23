@@ -1,3 +1,5 @@
+import { IconButton } from '@chakra-ui/react';
+import { DeleteIcon } from '@chakra-ui/icons';
 import css from './ContactList.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFilteredContacts } from 'redux/contacts/contactsSelectors';
@@ -16,9 +18,13 @@ const ContactList = () => {
       {contacts.map(({ id, name, number }) => (
         <li key={id}>
           {name}: {number}
-          <button type="button" onClick={() => handleDelete(id)}>
-            Delete
-          </button>
+          <IconButton
+            variant="outline"
+            colorScheme="red"
+            onClick={() => handleDelete(id)}
+            size="xs"
+            icon={<DeleteIcon />}
+          />
         </li>
       ))}
     </ul>
