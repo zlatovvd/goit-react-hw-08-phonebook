@@ -7,6 +7,7 @@ const Home = () => {
   return (
     <>
       <h1>Phonebook</h1>
+      <p>Home page</p>
       {(!data || !data.token) && <p>Please Log In!</p>}
     </>
   );
